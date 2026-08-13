@@ -1,0 +1,270 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isParticipant() {
+      return signedIn() &&
+        (resource.data.hostUid == request.auth.uid ||
+         resource.data.guestUid == request.auth.uid);
+    }
+
+    function validRoomCode(code) {
+      return code is string && code.size() == 6;
+    }
+
+    function validColor(color) {
+      return color == 'blue' || color == 'red';
+    }
+
+    function validRole(role) {
+      return role == null || role == 'host' || role == 'guest';
+    }
+
+    function validPhase(phase) {
+      return phase == 'lobby' || phase == 'battle' || phase == 'complete';
+    }
+
+    function validProfile(profile) {
+      return profile is map &&
+        profile.keys().hasOnly([
+          'callsign', 'icon', 'frame', 'title', 'commander', 'tactic', 'reactions'
+        ]) &&
+        profile.callsign is string && profile.callsign.size() >= 1 && profile.callsign.size() <= 12 &&
+        profile.icon is string && profile.icon.size() <= 32 &&
+        profile.frame is string && profile.frame.size() <= 32 &&
+        profile.title is string && profile.title.size() <= 32 &&
+        profile.commander is string && profile.commander.size() <= 32 &&
+        profile.tactic is string && profile.tactic.size() <= 32 &&
+        profile.reactions is list && profile.reactions.size() <= 5;
+    }
+
+    function validDeployment(deployment) {
+      return deployment is list && deployment.size() == 22;
+    }
+
+    function validBoard(snapshot) {
+      return snapshot is map &&
+        snapshot.keys().hasOnly([
+          'perspectiveTeam', 'cells', 'captured', 'commanderUse',
+          'shieldArmed', 'phase', 'lastMoveGlow'
+        ]) &&
+        snapshot.cells is list && snapshot.cells.size() <= 80;
+    }
+
+    function validRoomDocument() {
+      return request.resource.data.keys().hasAll([
+        'roomCode', 'hostUid', 'guestUid', 'hostProfile', 'guestProfile',
+        'hostColor', 'guestColor', 'firstAttackTeam', 'phase', 'turnRole',
+        'moveSeq', 'createdAt', 'updatedAt', 'expiresAt'
+      ]) && request.resource.data.keys().hasOnly([
+        'roomCode', 'hostUid', 'guestUid', 'hostProfile', 'guestProfile',
+        'hostColor', 'guestColor', 'firstAttackTeam', 'phase',
+        'turnRole', 'activeRole', 'turnTeam', 'activeTeam',
+        'turnUid', 'activeUid', 'moveSeq', 'hostReady', 'guestReady',
+        'hostDeployment', 'guestDeployment', 'hostDeploymentId', 'guestDeploymentId',
+        'lastCommitId', 'lastCommitByRole', 'lastCommitByTeam', 'lastCommitByUid',
+        'lastMoveText', 'boardSnapshot', 'lastMove', 'lastReaction',
+        'result', 'winnerUid', 'completedByUid', 'completedAt',
+        'createdAt', 'updatedAt', 'expiresAt'
+      ]) &&
+      validRoomCode(request.resource.data.roomCode) &&
+      request.resource.data.hostUid is string &&
+      (request.resource.data.guestUid == null || request.resource.data.guestUid is string) &&
+      validProfile(request.resource.data.hostProfile) &&
+      (request.resource.data.guestProfile == null || validProfile(request.resource.data.guestProfile)) &&
+      validColor(request.resource.data.hostColor) &&
+      validColor(request.resource.data.guestColor) &&
+      request.resource.data.hostColor != request.resource.data.guestColor &&
+      validColor(request.resource.data.firstAttackTeam) &&
+      validPhase(request.resource.data.phase) &&
+      validRole(request.resource.data.turnRole) &&
+      (!request.resource.data.keys().hasAny(['activeRole']) || validRole(request.resource.data.activeRole)) &&
+      request.resource.data.moveSeq is int &&
+      request.resource.data.moveSeq >= 0 && request.resource.data.moveSeq <= 1000 &&
+      request.resource.data.expiresAt is timestamp &&
+      (!request.resource.data.keys().hasAny(['hostDeployment']) || validDeployment(request.resource.data.hostDeployment)) &&
+      (!request.resource.data.keys().hasAny(['guestDeployment']) || validDeployment(request.resource.data.guestDeployment)) &&
+      (!request.resource.data.keys().hasAny(['boardSnapshot']) || validBoard(request.resource.data.boardSnapshot));
+    }
+
+    function immutableRoomIdentity() {
+      return request.resource.data.roomCode == resource.data.roomCode &&
+        request.resource.data.hostUid == resource.data.hostUid &&
+        request.resource.data.hostProfile == resource.data.hostProfile &&
+        request.resource.data.hostColor == resource.data.hostColor &&
+        request.resource.data.guestColor == resource.data.guestColor &&
+        request.resource.data.firstAttackTeam == resource.data.firstAttackTeam &&
+        request.resource.data.createdAt == resource.data.createdAt &&
+        request.resource.data.expiresAt == resource.data.expiresAt;
+    }
+
+    function immutableGuestIdentity() {
+      return request.resource.data.guestUid == resource.data.guestUid &&
+        request.resource.data.guestProfile == resource.data.guestProfile;
+    }
+
+    function validRoleIdentity() {
+      return (!request.resource.data.keys().hasAny(['turnUid']) ||
+          (request.resource.data.turnRole == 'host' &&
+           request.resource.data.turnUid == resource.data.hostUid) ||
+          (request.resource.data.turnRole == 'guest' &&
+           request.resource.data.turnUid == resource.data.guestUid) ||
+          (request.resource.data.turnRole == null &&
+           request.resource.data.turnUid == null)) &&
+        (!request.resource.data.keys().hasAny(['activeUid']) ||
+          (request.resource.data.activeRole == 'host' &&
+           request.resource.data.activeUid == resource.data.hostUid) ||
+          (request.resource.data.activeRole == 'guest' &&
+           request.resource.data.activeUid == resource.data.guestUid) ||
+          (request.resource.data.activeRole == null &&
+           request.resource.data.activeUid == null));
+    }
+
+    function changedFields() {
+      return request.resource.data.diff(resource.data).affectedKeys();
+    }
+
+    function deploymentFieldsBelongToCaller(changed) {
+      return (request.auth.uid == resource.data.hostUid &&
+          !changed.hasAny([
+            'guestReady', 'guestDeployment', 'guestDeploymentId'
+          ])) ||
+        (request.auth.uid == resource.data.guestUid &&
+          !changed.hasAny([
+            'hostReady', 'hostDeployment', 'hostDeploymentId'
+          ]));
+    }
+
+    function validTurnCommit(changed) {
+      return !changed.hasAny([
+          'moveSeq', 'lastCommitId', 'lastCommitByRole', 'lastCommitByTeam',
+          'lastCommitByUid', 'lastMoveText', 'boardSnapshot', 'lastMove'
+        ]) || (
+          resource.data.phase == 'battle' &&
+          resource.data.activeUid == request.auth.uid &&
+          request.resource.data.moveSeq == resource.data.moveSeq + 1 &&
+          request.resource.data.lastCommitByUid == request.auth.uid
+        );
+    }
+
+    function validReactionUpdate(changed) {
+      return !changed.hasAny(['lastReaction']) || (
+        request.resource.data.lastReaction is map &&
+        request.resource.data.lastReaction.keys().hasOnly([
+          'id', 'key', 'byUid', 'byRole', 'at'
+        ]) &&
+        request.resource.data.lastReaction.id is string &&
+        request.resource.data.lastReaction.id.size() <= 96 &&
+        request.resource.data.lastReaction.key is string &&
+        request.resource.data.lastReaction.key.size() <= 32 &&
+        request.resource.data.lastReaction.byUid == request.auth.uid &&
+        validRole(request.resource.data.lastReaction.byRole)
+      );
+    }
+
+    /* Existing room documents were fully validated when created. Updates only
+       validate fields that actually changed, which keeps a 22-unit deployment
+       comfortably below Firestore's rules-expression limit. */
+    function validChangedValues(changed) {
+      return validPhase(request.resource.data.phase) &&
+        validRole(request.resource.data.turnRole) &&
+        (!request.resource.data.keys().hasAny(['activeRole']) ||
+          validRole(request.resource.data.activeRole)) &&
+        request.resource.data.moveSeq is int &&
+        request.resource.data.moveSeq >= 0 &&
+        request.resource.data.moveSeq <= 1000 &&
+        (!changed.hasAny(['hostReady']) || request.resource.data.hostReady is bool) &&
+        (!changed.hasAny(['guestReady']) || request.resource.data.guestReady is bool) &&
+        (!changed.hasAny(['hostDeployment']) ||
+          validDeployment(request.resource.data.hostDeployment)) &&
+        (!changed.hasAny(['guestDeployment']) ||
+          validDeployment(request.resource.data.guestDeployment)) &&
+        (!changed.hasAny(['boardSnapshot']) ||
+          validBoard(request.resource.data.boardSnapshot));
+    }
+
+    function joiningOpenRoom() {
+      let changed = changedFields();
+      return signedIn() &&
+        resource.data.phase == 'lobby' &&
+        resource.data.guestUid == null &&
+        request.resource.data.guestUid == request.auth.uid &&
+        validProfile(request.resource.data.guestProfile) &&
+        validColor(request.resource.data.guestColor) &&
+        request.resource.data.guestColor != resource.data.hostColor &&
+        validColor(request.resource.data.firstAttackTeam) &&
+        changed.hasOnly([
+          'guestUid', 'guestProfile', 'guestColor', 'firstAttackTeam', 'updatedAt'
+        ]) &&
+        request.resource.data.updatedAt == request.time;
+    }
+
+    function participantUpdate() {
+      let changed = changedFields();
+      return isParticipant() &&
+        immutableGuestIdentity() &&
+        immutableRoomIdentity() &&
+        resource.data.expiresAt > request.time &&
+        changed.hasOnly([
+          'phase', 'turnRole', 'activeRole', 'turnTeam', 'activeTeam',
+          'turnUid', 'activeUid', 'moveSeq', 'hostReady', 'guestReady',
+          'hostDeployment', 'guestDeployment', 'hostDeploymentId', 'guestDeploymentId',
+          'lastCommitId', 'lastCommitByRole', 'lastCommitByTeam', 'lastCommitByUid',
+          'lastMoveText', 'boardSnapshot', 'lastMove', 'lastReaction',
+          'result', 'winnerUid', 'completedByUid', 'completedAt', 'updatedAt'
+        ]) &&
+        validChangedValues(changed) &&
+        deploymentFieldsBelongToCaller(changed) &&
+        validRoleIdentity() &&
+        validTurnCommit(changed) &&
+        validReactionUpdate(changed) &&
+        request.resource.data.updatedAt == request.time;
+    }
+
+    match /rooms/{roomCode} {
+      allow get: if signedIn() && resource.data.expiresAt > request.time;
+      allow list: if false;
+
+      allow create: if signedIn() &&
+        roomCode == request.resource.data.roomCode &&
+        request.resource.data.hostUid == request.auth.uid &&
+        request.resource.data.hostUid.size() <= 128 &&
+        request.resource.data.guestUid == null &&
+        request.resource.data.hostColor != request.resource.data.firstAttackTeam &&
+        request.resource.data.phase == 'lobby' &&
+        request.resource.data.turnRole == null &&
+        !request.resource.data.keys().hasAny([
+          'activeRole', 'turnUid', 'activeUid',
+          'hostReady', 'guestReady', 'hostDeployment', 'guestDeployment',
+          'hostDeploymentId', 'guestDeploymentId', 'boardSnapshot',
+          'lastMove', 'lastReaction', 'result', 'winnerUid',
+          'completedByUid', 'completedAt'
+        ]) &&
+        request.resource.data.moveSeq == 0 &&
+        request.resource.data.createdAt == request.time &&
+        request.resource.data.updatedAt == request.time &&
+        request.resource.data.expiresAt > request.time &&
+        request.resource.data.expiresAt < request.time + duration.value(24, 'h') &&
+        validRoomDocument();
+
+      allow update: if joiningOpenRoom() || participantUpdate();
+
+      allow delete: if isParticipant();
+
+      match /{document=**} {
+        allow read, write: if false;
+      }
+    }
+
+    /* The production browser never reads or writes wallets, XP, redemption
+       history, or inventories in Firestore. Future account collections remain
+       server-only until explicit rules/functions are added. */
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
