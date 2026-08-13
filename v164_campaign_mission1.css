@@ -1,0 +1,236 @@
+/* ============================================================
+   BEACON WARS v164 · CAMPAIGN MISSION 1
+   Flat 1920×1080 campaign board using the user's exact mission
+   artwork and campaign-only 86×100 unit/token canvases.
+   ============================================================ */
+#campaignMission1{
+  position:absolute;
+  inset:0;
+  width:1920px;
+  height:1080px;
+  overflow:hidden;
+  background:#030508 url("mission_one_bg.png") center/1920px 1080px no-repeat;
+  color:#fff;
+}
+#campaignMission1 .campaign-board-hitlayer,
+#campaignMission1 .campaign-piece-layer,
+#campaignMission1 .campaign-fx-layer{
+  position:absolute;
+  inset:0;
+}
+#campaignMission1 .campaign-board-hitlayer{z-index:20;pointer-events:none}
+#campaignMission1 .campaign-piece-layer{z-index:30;pointer-events:none}
+#campaignMission1 .campaign-fx-layer{z-index:40;pointer-events:none}
+
+.campaign-cell{
+  position:absolute;
+  pointer-events:auto;
+  border:0;
+  background:transparent;
+  padding:0;
+  margin:0;
+  cursor:pointer;
+  box-sizing:border-box;
+}
+.campaign-cell.blocked{cursor:not-allowed}
+.campaign-cell.legal::after,
+.campaign-cell.scan-target::after,
+.campaign-cell.escape-open::after,
+.campaign-cell.escape-locked::after{
+  content:"";
+  position:absolute;
+  left:8%;right:8%;top:8%;bottom:8%;
+  border-radius:10px;
+  pointer-events:none;
+}
+.campaign-cell.legal::after{
+  border:3px solid rgba(70,220,255,.92);
+  box-shadow:inset 0 0 18px rgba(0,195,255,.30),0 0 17px rgba(0,195,255,.45);
+  background:rgba(0,140,255,.08);
+}
+.campaign-cell.scan-target::after{
+  border:3px solid #ffd44b;
+  box-shadow:inset 0 0 20px rgba(255,212,75,.28),0 0 18px rgba(255,212,75,.52);
+  background:rgba(255,212,75,.10);
+  animation:campaignScanPulse .8s ease-in-out infinite alternate;
+}
+.campaign-cell.escape-locked::after{
+  display:none;
+}
+.campaign-cell.escape-open::after{
+  border:3px solid #55ffd5;
+  box-shadow:inset 0 0 26px rgba(40,255,190,.32),0 0 24px rgba(40,255,190,.52);
+  background:rgba(0,180,120,.13);
+  animation:campaignEscapePulse 1s ease-in-out infinite alternate;
+}
+@keyframes campaignScanPulse{to{filter:brightness(1.45)}}
+@keyframes campaignEscapePulse{to{box-shadow:inset 0 0 32px rgba(40,255,190,.44),0 0 31px rgba(40,255,190,.72)}}
+
+.campaign-piece{
+  position:absolute;
+  width:86px;
+  height:100px;
+  object-fit:contain;
+  /* Mission 1 is a flat top-down puzzle board. Every 86x100 campaign canvas,
+     hidden BW token included, uses the exact SAME square-center anchor. */
+  transform:translate(-50%,-50%);
+  transform-origin:50% 50%;
+  pointer-events:none;
+  image-rendering:auto;
+  filter:drop-shadow(0 4px 3px rgba(0,0,0,.38));
+  transition:left .25s ease,top .25s ease,filter .15s ease,opacity .2s ease,transform .2s ease;
+}
+.campaign-piece.enemy-contact.hidden-contact{
+  transform:translate(-50%,-50%);
+  transform-origin:50% 50%;
+}
+
+.campaign-piece.player-piece.selected{
+  filter:drop-shadow(0 0 7px #57dcff) drop-shadow(0 0 16px rgba(0,170,255,.8));
+  transform:translate(-50%,-50%) scale(1.06);
+}
+.campaign-piece.enemy-contact.revealing{
+  animation:campaignCrackRevealCentered .72s cubic-bezier(.2,.8,.25,1);
+  filter:drop-shadow(0 0 8px #ff354c) drop-shadow(0 0 18px rgba(255,45,70,.7));
+}
+.campaign-piece.enemy-contact.revealed{
+  filter:drop-shadow(0 5px 4px rgba(0,0,0,.45)) drop-shadow(0 0 8px rgba(255,70,70,.34));
+}
+.campaign-piece.escaped{
+  opacity:0;
+  transform:translate(-50%,-50%) scale(.72);
+}
+@keyframes campaignCrackRevealCentered{
+  0%{transform:translate(-50%,-50%) scale(1);filter:brightness(1)}
+  35%{transform:translate(-50%,-50%) scale(1.13);filter:brightness(1.8)}
+  65%{transform:translate(-50%,-50%) scale(.97);filter:brightness(1.4)}
+  100%{transform:translate(-50%,-50%) scale(1);filter:brightness(1)}
+}
+@keyframes campaignCrackReveal{
+  0%{transform:translate(-50%,-50%) scale(1);filter:brightness(1)}
+  35%{transform:translate(-50%,-50%) scale(1.13);filter:brightness(1.8)}
+  65%{transform:translate(-50%,-50%) scale(.97);filter:brightness(1.4)}
+  100%{transform:translate(-50%,-50%) scale(1);filter:brightness(1)}
+}
+
+.campaign-m1-hud{
+  position:absolute;
+  z-index:60;
+  left:54px;
+  top:210px;
+  width:350px;
+  min-height:405px;
+  padding:22px 22px 20px;
+  box-sizing:border-box;
+  border:2px solid rgba(255,255,255,.82);
+  background:linear-gradient(180deg,rgba(3,11,21,.91),rgba(5,8,14,.84));
+  box-shadow:0 0 25px rgba(0,0,0,.45),inset 0 0 25px rgba(20,160,255,.08);
+}
+.campaign-m1-kicker{font:700 15px/1.1 Arial,sans-serif;letter-spacing:2.4px;color:#5bdcff;margin-bottom:6px}
+.campaign-m1-title{font:900 34px/.95 Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;letter-spacing:1.2px;color:#fff;margin-bottom:18px}
+.campaign-m1-objective{
+  border-top:1px solid rgba(91,220,255,.35);
+  border-bottom:1px solid rgba(91,220,255,.24);
+  padding:14px 0 12px;
+}
+.campaign-m1-objective strong{display:block;font:900 18px/1.05 Arial,sans-serif;letter-spacing:.5px;color:#fff}
+.campaign-m1-objective span{display:block;margin-top:6px;font:700 12px/1.35 Arial,sans-serif;color:#b9cbd7}
+.campaign-m1-meter{display:flex;gap:7px;margin-top:12px}
+.campaign-m1-pip{width:38px;height:10px;border:1px solid #5bdcff;background:#05131e;box-shadow:inset 0 0 8px rgba(0,0,0,.8)}
+.campaign-m1-pip.on{background:#59e1ff;box-shadow:0 0 10px rgba(89,225,255,.82)}
+.campaign-m1-escape{margin-top:15px;padding:11px 12px;border:1px solid rgba(255,80,80,.45);background:rgba(90,0,0,.16)}
+.campaign-m1-escape.open{border-color:rgba(60,255,190,.62);background:rgba(0,90,60,.18)}
+.campaign-m1-escape b{display:block;font:900 14px/1 Arial,sans-serif;letter-spacing:1px;color:#ff666f}
+.campaign-m1-escape.open b{color:#55ffd5}
+.campaign-m1-escape span{display:block;margin-top:5px;font:700 11px/1.3 Arial,sans-serif;color:#cfd9df}
+.campaign-m1-selected{margin-top:16px;color:#93b7ca;font:700 11px/1.25 Arial,sans-serif;letter-spacing:.7px;min-height:28px}
+.campaign-m1-selected strong{display:block;color:#fff;font-size:15px;margin-top:2px}
+.campaign-m1-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.campaign-m1-button{
+  min-height:44px;
+  border:2px solid #e8f7ff;
+  border-radius:5px;
+  background:#073047;
+  color:#fff;
+  font:900 13px/1 Arial,sans-serif;
+  letter-spacing:.6px;
+  cursor:pointer;
+  box-shadow:0 0 12px rgba(49,196,255,.15);
+}
+.campaign-m1-button:hover:not(:disabled){filter:brightness(1.18);box-shadow:0 0 16px rgba(49,196,255,.38)}
+.campaign-m1-button:disabled{opacity:.34;cursor:default}
+.campaign-m1-button.scan{background:#f2c72b;border-color:#fff1a6;color:#101010}
+.campaign-m1-button.return{grid-column:1/-1;background:#981a22;border-color:#ff7d84;color:#fff}
+.campaign-m1-status{margin-top:13px;min-height:44px;font:700 12px/1.35 Arial,sans-serif;color:#dce9ef}
+.campaign-m1-status em{font-style:normal;color:#59e1ff}
+
+.campaign-m1-intel{
+  position:absolute;
+  z-index:60;
+  right:55px;
+  top:210px;
+  width:350px;
+  min-height:288px;
+  padding:20px;
+  box-sizing:border-box;
+  border:2px solid rgba(255,255,255,.82);
+  background:linear-gradient(180deg,rgba(19,7,9,.91),rgba(7,8,14,.86));
+  box-shadow:0 0 25px rgba(0,0,0,.45),inset 0 0 25px rgba(255,40,60,.07);
+}
+.campaign-m1-intel h3{margin:0 0 12px;font:900 22px/1 Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;letter-spacing:1px;color:#fff}
+.campaign-m1-intel-list{display:grid;gap:8px}
+.campaign-intel-row{display:flex;align-items:center;gap:10px;min-height:42px;padding:6px 8px;border:1px solid rgba(255,255,255,.13);background:rgba(0,0,0,.2)}
+.campaign-intel-row img{width:38px;height:44px;object-fit:contain;flex:none}
+.campaign-intel-row strong{display:block;font:900 12px/1 Arial,sans-serif;color:#fff}
+.campaign-intel-row span{display:block;margin-top:3px;font:700 10px/1.1 Arial,sans-serif;color:#a9bdca}
+.campaign-intel-empty{font:700 12px/1.45 Arial,sans-serif;color:#8da2af;padding:12px 2px}
+
+.campaign-m1-result{
+  position:absolute;
+  z-index:100;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,4,10,.78);
+  backdrop-filter:blur(4px);
+}
+.campaign-m1-result.active{display:flex}
+.campaign-m1-result-card{
+  width:560px;
+  padding:34px;
+  box-sizing:border-box;
+  border:2px solid #55ffd5;
+  background:linear-gradient(180deg,#041a24,#051016 62%,#08100f);
+  text-align:center;
+  box-shadow:0 0 45px rgba(61,255,196,.22);
+}
+.campaign-m1-result-kicker{font:800 13px/1 Arial,sans-serif;letter-spacing:2px;color:#55ffd5}
+.campaign-m1-result-card h2{margin:8px 0 4px;font:900 55px/.95 Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;color:#fff;letter-spacing:1px}
+.campaign-m1-result-card p{font:700 15px/1.45 Arial,sans-serif;color:#c7d7de;margin:14px auto 20px;max-width:450px}
+.campaign-m1-reward{font:900 24px/1 Arial,sans-serif;color:#ffd43f;margin:15px 0 24px}
+.campaign-m1-result-actions{display:flex;gap:10px;justify-content:center}
+.campaign-m1-result-actions button{min-width:190px;min-height:46px;border:2px solid #fff;border-radius:5px;font:900 13px Arial,sans-serif;cursor:pointer}
+.campaign-m1-result-actions .replay{background:#f2c72b;color:#111}
+.campaign-m1-result-actions .home{background:#991b23;color:#fff}
+
+/* Small coordinate tooltip appears only while hovering the flat mission board. */
+.campaign-cell::before{
+  content:attr(data-coordinate);
+  position:absolute;
+  left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  color:transparent;
+  font:900 10px Arial,sans-serif;
+  pointer-events:none;
+}
+
+/* v161 Stratego turn-state polish */
+#campaignMission1 .campaign-cell:disabled{cursor:default}
+.campaign-m1-result.failure .campaign-m1-result-card{
+  border-color:#ff5964;
+  background:linear-gradient(180deg,#24070b,#120509 62%,#0d0607);
+  box-shadow:0 0 45px rgba(255,50,68,.2);
+}
+.campaign-m1-result.failure .campaign-m1-result-kicker{color:#ff6a73}
+.campaign-m1-result.failure .campaign-m1-reward{color:#ff7b83}
