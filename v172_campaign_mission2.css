@@ -1,0 +1,79 @@
+/* ============================================================
+   BEACON WARS v172 · CAMPAIGN MISSION 2: UNKNOWN PLANET
+   Flat top-down campaign puzzle board. Same A-J / 1-8 frame as Mission 1.
+   ============================================================ */
+#campaignMission2{
+  position:absolute;inset:0;width:1920px;height:1080px;overflow:hidden;
+  background:#030508 url("mission_two_bg.png") center/1920px 1080px no-repeat;color:#fff;
+}
+#campaignMission2 .campaign-m2-hitlayer,
+#campaignMission2 .campaign-m2-piece-layer,
+#campaignMission2 .campaign-m2-fx-layer{position:absolute;inset:0}
+#campaignMission2 .campaign-m2-hitlayer{z-index:20;pointer-events:none}
+#campaignMission2 .campaign-m2-piece-layer{z-index:30;pointer-events:none}
+#campaignMission2 .campaign-m2-fx-layer{z-index:40;pointer-events:none}
+.campaign-m2-roof{
+  position:absolute;inset:0;z-index:35;width:1920px;height:1080px;object-fit:contain;
+  pointer-events:none;user-select:none;opacity:1;visibility:visible;
+  transition:opacity .22s ease,visibility 0s linear 0s;will-change:opacity
+}
+.campaign-m2-roof.interior-visible{
+  opacity:0;visibility:hidden;transition:opacity .22s ease,visibility 0s linear .22s
+}
+.campaign-m2-cell{position:absolute;pointer-events:auto;border:0;background:transparent;padding:0;margin:0;cursor:pointer;box-sizing:border-box}
+
+.campaign-m2-green-wall{
+  position:absolute;z-index:45;pointer-events:none;opacity:1;
+  transition:opacity .28s ease,filter .28s ease;
+}
+.campaign-m2-green-wall i{position:absolute;display:block;background:linear-gradient(90deg,#83ff4f,#c9ff8f,#66ff3a);box-shadow:0 0 8px rgba(107,255,70,.95),0 0 20px rgba(91,255,58,.58)}
+.campaign-m2-green-wall .green-wall-right{right:-4px;top:0;width:8px;height:100%}
+.campaign-m2-green-wall .green-wall-bottom{left:0;bottom:-4px;width:100%;height:8px}
+.campaign-m2-green-wall.open{opacity:0;filter:brightness(2.2);visibility:hidden}
+.campaign-m2-cell.blocked{cursor:not-allowed}
+.campaign-m2-cell.legal::after,.campaign-m2-cell.console::after,.campaign-m2-cell.exit-open::after,.campaign-m2-cell.exit-locked::after{
+  content:"";position:absolute;left:7%;right:7%;top:7%;bottom:7%;border-radius:8px;pointer-events:none
+}
+.campaign-m2-cell.legal::after{border:3px solid rgba(73,220,255,.94);background:rgba(0,145,255,.08);box-shadow:inset 0 0 18px rgba(0,195,255,.26),0 0 16px rgba(0,195,255,.42)}
+.campaign-m2-cell.console::after{border:3px solid rgba(102,255,95,.98);background:rgba(30,190,50,.10);box-shadow:0 0 22px rgba(70,255,100,.62),inset 0 0 18px rgba(70,255,100,.22)}
+.campaign-m2-cell.exit-locked::after{border:2px solid rgba(78,154,255,.25);background:rgba(30,80,140,.04)}
+.campaign-m2-cell.exit-open::after{border:3px solid #56d7ff;background:rgba(30,130,255,.13);box-shadow:0 0 25px rgba(55,180,255,.65),inset 0 0 20px rgba(55,180,255,.27);animation:m2ExitPulse .9s ease-in-out infinite alternate}
+@keyframes m2ExitPulse{to{filter:brightness(1.35)}}
+.campaign-m2-piece{position:absolute;width:86px;height:100px;object-fit:contain;transform:translate(-50%,-50%);transform-origin:50% 50%;pointer-events:none;filter:drop-shadow(0 4px 3px rgba(0,0,0,.42));transition:left .28s ease,top .28s ease,filter .15s ease,opacity .2s ease,transform .18s ease}
+.campaign-m2-piece.selected{filter:drop-shadow(0 0 8px #58ddff) drop-shadow(0 0 17px rgba(0,170,255,.82));transform:translate(-50%,-50%) scale(1.07)}
+.campaign-m2-piece.enemy.revealed{filter:drop-shadow(0 5px 4px rgba(0,0,0,.48)) drop-shadow(0 0 8px rgba(255,75,75,.42))}
+.campaign-m2-piece.revealing{animation:m2CrackReveal .7s cubic-bezier(.2,.8,.25,1)}
+@keyframes m2CrackReveal{0%{transform:translate(-50%,-50%) scale(1)}35%{transform:translate(-50%,-50%) scale(1.16);filter:brightness(1.9)}70%{transform:translate(-50%,-50%) scale(.96);filter:brightness(1.35)}100%{transform:translate(-50%,-50%) scale(1)}}
+.campaign-m2-hud{position:absolute;z-index:60;left:54px;top:208px;width:350px;min-height:420px;padding:22px;box-sizing:border-box;border:2px solid rgba(255,255,255,.84);background:linear-gradient(180deg,rgba(3,11,21,.92),rgba(5,8,14,.86));box-shadow:0 0 25px rgba(0,0,0,.48),inset 0 0 25px rgba(20,160,255,.08)}
+.campaign-m2-kicker{font:700 15px/1.1 Arial,sans-serif;letter-spacing:2.4px;color:#5bdcff;margin-bottom:6px}
+.campaign-m2-title{font:900 34px/.95 Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;letter-spacing:1.2px;color:#fff;margin-bottom:16px}
+.campaign-m2-objective{border-top:1px solid rgba(91,220,255,.35);border-bottom:1px solid rgba(91,220,255,.24);padding:13px 0 11px}
+.campaign-m2-objective strong{display:block;font:900 18px/1.05 Arial,sans-serif;color:#fff}
+.campaign-m2-objective span{display:block;margin-top:6px;font:700 12px/1.35 Arial,sans-serif;color:#b9cbd7}
+.campaign-m2-stage{margin-top:14px;padding:11px 12px;border:1px solid rgba(255,200,70,.42);background:rgba(110,70,0,.14)}
+.campaign-m2-stage.open{border-color:rgba(68,255,154,.62);background:rgba(0,90,60,.18)}
+.campaign-m2-stage b{display:block;font:900 14px/1 Arial,sans-serif;letter-spacing:1px;color:#ffd35a}.campaign-m2-stage.open b{color:#55ffd5}
+.campaign-m2-stage span{display:block;margin-top:5px;font:700 11px/1.3 Arial,sans-serif;color:#d0dbe1}
+.campaign-m2-selected{margin-top:15px;color:#93b7ca;font:700 11px/1.25 Arial,sans-serif;letter-spacing:.7px;min-height:31px}.campaign-m2-selected strong{display:block;color:#fff;font-size:15px;margin-top:2px}
+.campaign-m2-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.campaign-m2-button{min-height:44px;border:2px solid #e8f7ff;border-radius:5px;background:#073047;color:#fff;font:900 13px/1 Arial,sans-serif;letter-spacing:.6px;cursor:pointer;box-shadow:0 0 12px rgba(49,196,255,.15)}
+.campaign-m2-button:hover:not(:disabled){filter:brightness(1.18);box-shadow:0 0 16px rgba(49,196,255,.38)}.campaign-m2-button:disabled{opacity:.34;cursor:default}
+.campaign-m2-button.return{grid-column:1/-1;background:#981a22;border-color:#ff7d84;color:#fff}
+.campaign-m2-status{margin-top:13px;min-height:44px;font:700 12px/1.35 Arial,sans-serif;color:#dce9ef}.campaign-m2-status em{font-style:normal;color:#59e1ff}
+.campaign-m2-intel{position:absolute;z-index:60;right:55px;top:210px;width:350px;min-height:300px;padding:20px;box-sizing:border-box;border:2px solid rgba(255,255,255,.82);background:linear-gradient(180deg,rgba(19,7,9,.91),rgba(7,8,14,.86));box-shadow:0 0 25px rgba(0,0,0,.45),inset 0 0 25px rgba(255,40,60,.07)}
+.campaign-m2-intel h3{margin:0 0 12px;font:900 22px/1 Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;letter-spacing:1px;color:#fff}
+.campaign-m2-intel-list{display:grid;gap:8px}.campaign-m2-intel-row{display:flex;align-items:center;gap:10px;min-height:42px;padding:6px 8px;border:1px solid rgba(255,255,255,.13);background:rgba(0,0,0,.2)}
+.campaign-m2-intel-row img{width:38px;height:44px;object-fit:contain;flex:none}.campaign-m2-intel-row strong{display:block;font:900 12px/1 Arial,sans-serif}.campaign-m2-intel-row span{display:block;margin-top:3px;font:700 10px/1.1 Arial,sans-serif;color:#a9bdca}
+.campaign-m2-intel-empty{font:700 12px/1.45 Arial,sans-serif;color:#8da2af;padding:12px 2px}
+.campaign-m2-result{position:absolute;z-index:100;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,4,10,.80);backdrop-filter:blur(4px)}.campaign-m2-result.active{display:flex}
+.campaign-m2-result-card{width:560px;padding:34px;box-sizing:border-box;border:2px solid #55ffd5;background:linear-gradient(180deg,#041a24,#051016 62%,#08100f);text-align:center;box-shadow:0 0 45px rgba(61,255,196,.22)}
+.campaign-m2-result.failure .campaign-m2-result-card{border-color:#ff5964;background:linear-gradient(180deg,#24070b,#120509 62%,#0d0607)}
+.campaign-m2-result-kicker{font:800 13px/1 Arial,sans-serif;letter-spacing:2px;color:#55ffd5}.campaign-m2-result.failure .campaign-m2-result-kicker{color:#ff6a73}
+.campaign-m2-result-card h2{margin:8px 0 4px;font:900 55px/.95 Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;color:#fff}.campaign-m2-result-card p{font:700 15px/1.45 Arial,sans-serif;color:#c7d7de;margin:14px auto 20px;max-width:450px}
+.campaign-m2-reward{font:900 24px/1 Arial,sans-serif;color:#ffd43f;margin:15px 0 24px}.campaign-m2-result-actions{display:flex;gap:10px;justify-content:center}.campaign-m2-result-actions button{min-width:190px;min-height:46px;border:2px solid #fff;border-radius:5px;font:900 13px Arial,sans-serif;cursor:pointer}.campaign-m2-result-actions .replay{background:#f2c72b;color:#111}.campaign-m2-result-actions .home{background:#991b23;color:#fff}
+
+/* v170: A7/A8 are permanently open. Legacy green containment art disabled. */
+#campaignMission2 #campaignM2GreenWall{display:none!important}
+
+/* v172: visual row 7 passes to row 8 through columns A-D. The roof masks all
+   pieces in the facility until a live, controllable blue unit enters it. */

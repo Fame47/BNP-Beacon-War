@@ -1,0 +1,211 @@
+/* Beacon Wars v188 · shared objective and completion presentation */
+
+#campaignObjectiveOverlay{
+  position:absolute;
+  z-index:180;
+  inset:0;
+  display:none;
+  width:1920px;
+  height:1080px;
+  overflow:hidden;
+  background:#02040a;
+}
+
+#campaignObjectiveOverlay.active{display:block}
+
+.campaign-objective-art,
+.campaign-objective-ship{
+  position:absolute;
+  inset:0;
+  width:1920px;
+  height:1080px;
+  user-select:none;
+  pointer-events:none;
+}
+
+.campaign-objective-art{object-fit:cover}
+
+.campaign-objective-ship{
+  object-fit:contain;
+  opacity:0;
+  transform-origin:50% 50%;
+  transform:translate(1200px,20px) scale(.58);
+  filter:drop-shadow(0 18px 18px rgba(0,0,0,.72));
+  transition:transform 1.45s cubic-bezier(.16,.84,.24,1),opacity .38s ease;
+  will-change:transform,opacity;
+}
+
+#campaignObjectiveOverlay.ship-arrived .campaign-objective-ship{
+  opacity:1;
+  transform:translate(210px,20px) scale(.58);
+}
+
+.campaign-objective-begin{
+  position:absolute;
+  left:810px;
+  top:780px;
+  width:300px;
+  min-height:58px;
+  border:3px solid #fff;
+  border-radius:5px;
+  background:linear-gradient(180deg,#f7d84a,#edb716);
+  color:#101010;
+  box-shadow:0 10px 25px rgba(0,0,0,.58),0 0 24px rgba(248,203,40,.25);
+  font:900 21px/1 Arial,sans-serif;
+  letter-spacing:1.2px;
+  cursor:pointer;
+}
+
+.campaign-objective-begin:hover,
+.campaign-objective-begin:focus-visible{
+  transform:translateY(-2px);
+  box-shadow:0 13px 28px rgba(0,0,0,.65),0 0 30px rgba(248,203,40,.42);
+  outline:3px solid rgba(82,224,255,.9);
+  outline-offset:3px;
+}
+
+#campaignObjectiveOverlay.closing{
+  opacity:0;
+  transition:opacity .22s ease;
+}
+
+/* The supplied completion PNG already contains the dimmer, frame, ship and
+   SUCCESS heading. Keeping it transparent here preserves the exact board on
+   the winning move behind the artwork. */
+.campaign-m1-result.active:not(.failure),
+.campaign-m2-result.active:not(.failure),
+.campaign-m3-result.active:not(.failure){
+  display:block;
+  background:transparent;
+  backdrop-filter:none;
+}
+
+.campaign-m1-result.active:not(.failure) .campaign-m1-result-card,
+.campaign-m2-result.active:not(.failure) .campaign-m2-result-card,
+.campaign-m3-result.active:not(.failure) .campaign-m3-result-card{
+  position:absolute;
+  inset:0;
+  width:1920px;
+  height:1080px;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  color:#fff;
+  text-align:center;
+}
+
+.campaign-completion-frame{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  display:none;
+  width:1920px;
+  height:1080px;
+  object-fit:contain;
+  pointer-events:none;
+  user-select:none;
+}
+
+.active:not(.failure) .campaign-completion-frame{display:block}
+
+.active:not(.failure) .campaign-result-legacy{display:none}
+.failure .campaign-completion-stats{display:none}
+
+.campaign-completion-stats{
+  position:absolute;
+  z-index:2;
+  left:705px;
+  top:384px;
+  width:510px;
+  color:#fff;
+  font-family:Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;
+  letter-spacing:.4px;
+}
+
+.campaign-completion-row{
+  display:grid;
+  grid-template-columns:1fr 116px;
+  align-items:baseline;
+  width:325px;
+  margin:0 auto 8px;
+  font-size:25px;
+  line-height:1.12;
+}
+
+.campaign-completion-row span{text-align:right;color:#f4d74c;padding-right:18px}
+.campaign-completion-row b{text-align:left;color:#f4f7fb;font-weight:400}
+
+.campaign-completion-token-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:48px;
+  margin-top:3px;
+  color:#f4d74c;
+  font-size:24px;
+  line-height:1;
+}
+
+.campaign-completion-token-row > span{margin-right:16px}
+.campaign-completion-token-list{display:flex;align-items:center;gap:8px;height:44px}
+
+.campaign-completion-token{
+  display:block;
+  width:44px;
+  height:44px;
+  overflow:hidden;
+  flex:0 0 44px;
+}
+
+.campaign-completion-token img{
+  display:block;
+  width:86px;
+  height:100px;
+  max-width:none;
+  transform:translate(-22px,-37px);
+}
+
+.campaign-completion-note{
+  margin-top:7px;
+  color:#e7edf2;
+  font:800 11px/1.15 Arial,sans-serif;
+  letter-spacing:1.2px;
+}
+
+.campaign-m1-result.active:not(.failure) .campaign-m1-result-actions,
+.campaign-m2-result.active:not(.failure) .campaign-m2-result-actions,
+.campaign-m3-result.active:not(.failure) .campaign-m3-result-actions{
+  position:absolute;
+  z-index:3;
+  left:870px;
+  top:564px;
+  width:180px;
+  display:flex;
+  flex-direction:column;
+  flex-wrap:nowrap;
+  gap:7px;
+}
+
+.campaign-m1-result.active:not(.failure) .campaign-m1-result-actions button,
+.campaign-m2-result.active:not(.failure) .campaign-m2-result-actions button,
+.campaign-m3-result.active:not(.failure) .campaign-m3-result-actions button{
+  width:180px;
+  min-width:180px;
+  min-height:38px;
+  padding:5px 8px;
+  border:2px solid #fff;
+  border-radius:5px;
+  font:900 12px/1.05 Arial,sans-serif;
+  letter-spacing:.2px;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .campaign-objective-ship{transition:none}
+  #campaignObjectiveOverlay.ship-arrived .campaign-objective-ship{
+    opacity:1;
+    transform:translate(210px,20px) scale(.58);
+  }
+  #campaignObjectiveOverlay.closing{transition:none}
+}

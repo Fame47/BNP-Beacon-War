@@ -1,0 +1,23 @@
+/* Beacon Wars v193 · seventh commander layout */
+
+/* The seventh card still fits across the existing setup column at full size.
+   Keeping all commanders in one row leaves the tactic row immediately below. */
+#setup .commander-grid{
+  grid-template-columns:repeat(7,155px) !important;
+  gap:18px !important;
+}
+#setup .bw119-commander-png{
+  width:155px !important;
+  height:198px !important;
+}
+
+/* Jamal's uploaded select art uses the same centered 1024px canvas geometry
+   as the Vulcan/Klingon select art. */
+#setup .bw119-commander-png[data-commander="jamal"] img{
+  transform:scale(5.05);
+  transform-origin:center center;
+}
+#setup .bw119-commander-png[data-commander="jamal"]:hover img,
+#setup .bw119-commander-png[data-commander="jamal"].active img{
+  transform:translateY(-3px) scale(5.18);
+}

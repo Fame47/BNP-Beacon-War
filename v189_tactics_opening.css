@@ -1,0 +1,201 @@
+/* Beacon Wars v189 · tactic readout and First Command opening */
+
+#setup .tactic-detail-panel{
+  min-height:100px;
+  margin:16px 4px 0 10px;
+  padding:0 0 8px;
+  color:#fff;
+}
+#setup .tactic-detail-panel strong{
+  display:inline-block;
+  padding:7px 14px 6px;
+  background:linear-gradient(180deg,#ffd85d,#efb932);
+  color:#101217;
+  box-shadow:0 0 20px rgba(255,207,58,.22);
+  font:400 31px/.92 Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;
+  letter-spacing:.8px;
+  text-transform:uppercase;
+}
+#setup .tactic-detail-panel span{
+  display:block;
+  max-width:1060px;
+  margin-top:11px;
+  color:#f5f8fb;
+  text-shadow:0 3px 12px rgba(0,0,0,.82);
+  font:400 25px/1.14 Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;
+  letter-spacing:.45px;
+  text-transform:uppercase;
+}
+
+.bw189-command-deck,
+.bw189-command-logo{
+  position:absolute;
+  inset:0;
+  z-index:3;
+  display:none;
+  width:1920px;
+  height:1080px;
+  object-fit:contain;
+  pointer-events:none;
+  user-select:none;
+}
+.bw189-command-logo{z-index:5}
+
+#bw180StoryOverlay[data-mode="command-opening"] .bw180-story-bg{
+  z-index:1;
+  object-fit:cover;
+  transform-origin:50% 50%;
+  animation:bw189FirstCommandWarp 4s cubic-bezier(.16,.62,.22,1) both;
+  animation-delay:.35s;
+  will-change:transform;
+}
+#bw180StoryOverlay[data-mode="command-opening"] .bw189-command-deck{
+  opacity:1;
+  animation:none;
+}
+#bw180StoryOverlay[data-mode="command-opening"] .bw189-command-logo{
+  animation:bw189CommandLogoIn .72s .18s ease-out both;
+}
+#bw180StoryOverlay[data-mode="command-opening"] .bw180-story-shade,
+#bw180StoryOverlay[data-mode="command-opening"] .bw180-story-scanlines,
+#bw180StoryOverlay[data-mode="command-opening"] .bw180-story-header,
+#bw180StoryOverlay[data-mode="command-opening"] .bw180-story-progress,
+#bw180StoryOverlay[data-mode="command-opening"] .bw180-story-skip,
+#bw180StoryOverlay[data-mode="command-opening"] .bw180-story-kicker,
+#bw180StoryOverlay[data-mode="command-opening"] .bw180-story-title,
+#bw180StoryOverlay[data-mode="command-opening"] .bw180-story-speaker,
+#bw180StoryOverlay[data-mode="command-opening"] .bw180-story-body,
+#bw180StoryOverlay[data-mode="command-opening"] .bw180-story-count{
+  display:none !important;
+}
+#bw180StoryOverlay[data-mode="command-opening"] .bw180-story-copy{
+  left:auto;
+  right:374px;
+  bottom:235px;
+  width:194px;
+  min-height:46px;
+  padding:0;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+  backdrop-filter:none;
+  animation:none;
+}
+#bw180StoryOverlay[data-mode="command-opening"] .bw180-story-footer{
+  display:block;
+  margin:0;
+}
+#bw180StoryOverlay[data-mode="command-opening"] .bw180-story-next{
+  width:194px;
+  min-width:194px;
+  min-height:46px;
+  padding:0 20px;
+}
+@keyframes bw189FirstCommandWarp{
+  from{transform:scale(1)}
+  to{transform:scale(2)}
+}
+@keyframes bw189CommandLayerIn{
+  from{opacity:0}
+  to{opacity:1}
+}
+@keyframes bw189CommandLogoIn{
+  from{opacity:0;transform:scale(.96)}
+  to{opacity:1;transform:scale(1)}
+}
+@media (prefers-reduced-motion:reduce){
+  #bw180StoryOverlay[data-mode="command-opening"] .bw180-story-bg,
+  #bw180StoryOverlay[data-mode="command-opening"] .bw189-command-deck,
+  #bw180StoryOverlay[data-mode="command-opening"] .bw189-command-logo{animation:none}
+}
+
+/* v190 · bridge-first staging. The opaque bridge frame is already present
+   when the scene appears; only the warp view behind its transparent window
+   begins the four-second zoom. */
+#bw180StoryOverlay[data-mode="command-opening"] .bw189-command-deck{
+  z-index:4;
+}
+
+/* Campaign-completion honors appear over the already-live Command Center. */
+#bw190CampaignHonors{
+  position:absolute;
+  z-index:14000;
+  inset:0;
+  display:none;
+  width:1920px;
+  height:1080px;
+  place-items:center;
+  color:#fff;
+}
+#bw190CampaignHonors.active{display:grid}
+.bw190-honors-backdrop{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 50% 46%,rgba(14,102,173,.28),transparent 36%),
+    rgba(0,5,12,.78);
+  backdrop-filter:blur(7px);
+}
+.bw190-honors-panel{
+  position:relative;
+  width:1020px;
+  min-height:720px;
+  padding:42px 54px 38px;
+  border:2px solid rgba(86,220,255,.72);
+  clip-path:polygon(3% 0,97% 0,100% 4%,100% 96%,97% 100%,3% 100%,0 96%,0 4%);
+  background:
+    linear-gradient(90deg,rgba(255,205,61,.88),rgba(255,205,61,0)) top left/48% 3px no-repeat,
+    linear-gradient(270deg,rgba(87,220,255,.88),rgba(87,220,255,0)) top right/48% 3px no-repeat,
+    linear-gradient(155deg,rgba(5,30,51,.98),rgba(1,10,21,.99) 54%,rgba(32,20,4,.98));
+  box-shadow:0 0 75px rgba(49,196,255,.28),0 0 34px rgba(255,195,44,.17),inset 0 0 54px rgba(63,208,255,.07);
+  text-align:center;
+  animation:bw190HonorsIn .48s cubic-bezier(.18,.86,.25,1) both;
+}
+#bw190CampaignHonors.closing .bw190-honors-panel{animation:bw190HonorsOut .22s ease-in both}
+.bw190-honors-kicker{color:#68e6ff;font-size:15px;font-weight:1000;letter-spacing:5px}
+.bw190-honors-panel h2{
+  margin:12px 0 8px;
+  color:#fff;
+  text-shadow:0 0 22px rgba(255,209,69,.44);
+  font:400 64px/.95 Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;
+  letter-spacing:2px;
+}
+.bw190-honors-panel>p{margin:0 auto 28px;max-width:760px;color:#d8edf6;font-size:18px;font-weight:800}
+.bw190-honors-rewards{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.bw190-honors-card{
+  position:relative;
+  min-height:390px;
+  padding:22px 22px 25px;
+  border:1px solid rgba(88,220,255,.4);
+  border-radius:15px;
+  overflow:hidden;
+  background:linear-gradient(180deg,rgba(8,45,69,.9),rgba(2,16,27,.96));
+  box-shadow:inset 0 0 30px rgba(55,203,255,.08);
+}
+.bw190-honors-card::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(115deg,transparent 30%,rgba(255,226,132,.13) 47%,transparent 64%);
+  transform:translateX(-110%);animation:bw190RewardSweep 1.3s .45s ease-out both;
+}
+.bw190-honors-art{height:260px;display:grid;place-items:center}
+.bw190-honors-art img{display:block;max-width:90%;max-height:245px;object-fit:contain;filter:drop-shadow(0 12px 18px rgba(0,0,0,.55))}
+.bw190-honors-card.title-card .bw190-honors-art img{width:350px;max-height:125px}
+.bw190-honors-card small{display:block;color:#63dfff;font-size:11px;font-weight:1000;letter-spacing:3px}
+.bw190-honors-card strong{display:block;margin:5px 0;color:#fff;font-size:26px;letter-spacing:1px}
+.bw190-honors-card span{color:#ffd65b;font-size:12px;font-weight:1000;letter-spacing:2px}
+.bw190-honors-actions{display:flex;justify-content:center;gap:14px;margin-top:28px}
+.bw190-honors-actions button{
+  min-width:220px;height:52px;border:1px solid #fff;border-radius:5px;
+  color:#081018;font-size:13px;font-weight:1000;letter-spacing:1.4px;cursor:pointer;
+}
+.bw190-equip{background:linear-gradient(180deg,#ffe86b,#f2bb28);box-shadow:0 0 25px rgba(255,206,57,.38)}
+.bw190-continue{background:linear-gradient(180deg,#75ebff,#3bbfdf);box-shadow:0 0 22px rgba(74,214,255,.3)}
+.bw190-honors-actions button:hover,.bw190-honors-actions button:focus-visible{outline:none;filter:brightness(1.12);transform:translateY(-1px)}
+#playerProfile .first-command-frame-choice,
+#playerProfile .first-command-title-option{border-color:rgba(255,203,55,.62);box-shadow:inset 0 0 18px rgba(255,199,34,.07)}
+@keyframes bw190HonorsIn{from{opacity:0;transform:translateY(26px) scale(.965)}to{opacity:1;transform:none}}
+@keyframes bw190HonorsOut{to{opacity:0;transform:translateY(18px) scale(.98)}}
+@keyframes bw190RewardSweep{to{transform:translateX(110%)}}
+@media (prefers-reduced-motion:reduce){
+  .bw190-honors-panel,.bw190-honors-card::before,#bw190CampaignHonors.closing .bw190-honors-panel{animation:none}
+}
