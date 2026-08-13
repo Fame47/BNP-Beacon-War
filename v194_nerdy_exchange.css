@@ -1,0 +1,81 @@
+/* ============================================================
+   BEACON WARS v194 · NERDY EXCHANGE VISUALS
+   ============================================================ */
+
+/* Nerdy keeps the established two-row bundle composition; only its accent
+   treatment changes so it reads as a third distinct collection. */
+#shop .shop-bundle-showcase.nerdy{
+  border-color:rgba(255,76,91,.88);
+  background:linear-gradient(90deg,rgba(44,4,13,.90),rgba(0,18,40,.94));
+}
+#shop .shop-bundle-showcase.nerdy:hover{
+  border-color:#ff566a;
+  background:linear-gradient(90deg,rgba(67,6,17,.94),rgba(0,29,59,.96));
+}
+#shop .shop-bundle-showcase.nerdy .shop-bundle-showcase-copy > strong{
+  color:#ff5369;
+  text-shadow:0 0 13px rgba(255,53,79,.35),2px 0 #4bd8ff;
+}
+
+/* New thumbnails are already tightly cropped. The equipped layer continues to
+   use the matching untouched 1024 profile canvas. */
+#shop .shop-frame-card.frame-nerdy .shop-frame-preview img,
+#shop .shop-frame-card.frame-delta .shop-frame-preview img,
+#shop .shop-frame-card.frame-ruby .shop-frame-preview img,
+#shop .shop-frame-card.frame-academy .shop-frame-preview img{
+  transform:none !important;
+}
+#playerProfile .profile-frame-choice.exchange-frame-choice img{
+  transform:none !important;
+  object-fit:contain !important;
+}
+
+/* Match the new direct-crop reaction assets with all existing signs. */
+#shop .feature-reaction-card:not(.premium-canvas) img{
+  width:320px !important;
+  height:210px !important;
+  object-fit:contain !important;
+  transform:none !important;
+}
+
+/* Featured and category exchanges have independent clocks. The label remains
+   the 30-minute full catalog exchange requested by the design. */
+#shop .exchange-next-wrap::after{
+  content:"FEATURED · 10 MIN";
+  color:#69e6ff;
+  font:9px/1.1 Arial,sans-serif;
+  font-weight:900;
+  letter-spacing:.08em;
+  margin-left:8px;
+}
+
+/* Later catalog pages sit at translated positions inside the 400%-wide track.
+   Explicit 25% sizing prevents their grid children from leaking into the
+   previous tab during the slide animation. */
+#shop .exchange-catalog-track > .exchange-catalog-page{
+  flex:0 0 25% !important;
+  width:25% !important;
+  min-width:25% !important;
+  max-width:25% !important;
+}
+
+/* At 1920x1080 the original two-row frame labels can sit too close to their
+   artwork. Give all four rotating cards a compact, consistent rhythm. */
+#shop .shop-frame-card .shop-frame-preview{
+  width:164px !important;
+  height:164px !important;
+  margin-bottom:0 !important;
+}
+#shop .shop-frame-card .shop-frame-preview img{
+  width:164px !important;
+  height:164px !important;
+}
+#shop .shop-frame-card strong{
+  font-size:22px !important;
+  line-height:1 !important;
+  margin-top:-3px;
+}
+#shop .shop-frame-card .frame-price{
+  font-size:25px !important;
+  line-height:1 !important;
+}
