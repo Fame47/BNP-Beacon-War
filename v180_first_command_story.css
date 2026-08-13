@@ -1,0 +1,368 @@
+/* ============================================================
+   BEACON WARS v189 · FIRST COMMAND STORY SYSTEM
+   Full-stage 1920×1080 campaign cinematics and in-mission comms.
+   ============================================================ */
+#bw180StoryOverlay{
+  position:absolute;
+  inset:0;
+  z-index:12000;
+  display:none;
+  overflow:hidden;
+  color:#fff;
+  background:#01040a;
+  isolation:isolate;
+  font-family:Arial,Helvetica,sans-serif;
+}
+#bw180StoryOverlay.active{display:block}
+
+.bw180-story-bg,
+.bw180-story-portrait,
+.bw180-story-shade,
+.bw180-story-scanlines{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+}
+.bw180-story-bg{z-index:1;object-fit:cover;filter:saturate(1.04) contrast(1.03)}
+.bw180-story-portrait{z-index:3;object-fit:contain;object-position:center;filter:drop-shadow(0 16px 28px rgba(0,0,0,.55))}
+.bw180-story-shade{
+  z-index:2;
+  background:
+    linear-gradient(180deg,rgba(0,4,12,.18) 0%,rgba(0,4,12,.04) 36%,rgba(0,4,12,.68) 78%,rgba(0,3,9,.94) 100%),
+    linear-gradient(90deg,rgba(0,5,14,.30),transparent 33%,transparent 67%,rgba(0,5,14,.28));
+}
+.bw180-story-scanlines{
+  z-index:4;
+  opacity:.13;
+  background:repeating-linear-gradient(180deg,transparent 0 5px,rgba(111,224,255,.13) 6px,transparent 7px);
+  mix-blend-mode:screen;
+}
+
+.bw180-story-header{
+  position:absolute;
+  z-index:8;
+  left:70px;
+  right:70px;
+  top:52px;
+  display:flex;
+  align-items:center;
+  gap:18px;
+  color:#8cecff;
+  font:900 15px/1 Arial,sans-serif;
+  letter-spacing:3.2px;
+  text-transform:uppercase;
+  text-shadow:0 0 12px rgba(70,214,255,.72);
+}
+.bw180-story-header::after{
+  content:"";
+  height:2px;
+  flex:1;
+  background:linear-gradient(90deg,rgba(105,229,255,.72),rgba(105,229,255,0));
+  box-shadow:0 0 10px rgba(76,213,255,.46);
+}
+.bw180-story-progress{
+  position:absolute;
+  z-index:9;
+  left:70px;
+  right:70px;
+  top:91px;
+  height:4px;
+  background:rgba(255,255,255,.13);
+  overflow:hidden;
+}
+.bw180-story-progress i{
+  display:block;
+  width:0;
+  height:100%;
+  background:linear-gradient(90deg,#4bd9ff,#8df8ff,#ffd957);
+  box-shadow:0 0 14px rgba(84,224,255,.72);
+  transition:width .3s ease;
+}
+
+.bw180-story-copy{
+  position:absolute;
+  z-index:7;
+  left:700px;
+  right:80px;
+  bottom:72px;
+  min-height:260px;
+  padding:30px 34px 28px;
+  border:2px solid rgba(162,241,255,.82);
+  border-left:9px solid #58dcff;
+  background:linear-gradient(135deg,rgba(1,13,27,.94),rgba(4,8,18,.86));
+  box-shadow:0 18px 60px rgba(0,0,0,.56),0 0 28px rgba(55,191,255,.20),inset 0 0 30px rgba(48,192,255,.05);
+  backdrop-filter:blur(7px);
+}
+#bw180StoryOverlay[data-panel="left"] .bw180-story-copy{left:80px;right:700px}
+#bw180StoryOverlay[data-panel="center"] .bw180-story-copy{left:285px;right:285px;text-align:center;border-left:2px solid rgba(162,241,255,.82)}
+
+.bw180-story-kicker{
+  min-height:18px;
+  color:#5fe5ff;
+  font:900 15px/1.1 Arial,sans-serif;
+  letter-spacing:3px;
+  text-transform:uppercase;
+}
+.bw180-story-title{
+  display:none;
+  margin:8px 0 12px;
+  color:#fff;
+  font:900 68px/.92 Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;
+  letter-spacing:1.7px;
+  text-transform:uppercase;
+  text-shadow:0 4px 18px rgba(0,0,0,.65),0 0 25px rgba(74,210,255,.22);
+}
+.bw180-story-speaker{
+  margin-top:8px;
+  color:#ffd957;
+  font:900 22px/1 Arial,sans-serif;
+  letter-spacing:1.7px;
+  text-transform:uppercase;
+}
+.bw180-story-body{
+  margin:15px 0 22px;
+  max-width:1040px;
+  color:#f5fbff;
+  font:700 29px/1.35 Arial,sans-serif;
+  text-shadow:0 3px 12px rgba(0,0,0,.72);
+}
+.bw180-story-footer{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:6px}
+.bw180-story-count{color:#8aa8b9;font:900 12px/1 Arial,sans-serif;letter-spacing:2px}
+.bw180-story-next{
+  min-width:220px;
+  min-height:52px;
+  padding:0 28px;
+  border:2px solid #fff4b8;
+  border-radius:4px;
+  color:#101216;
+  background:linear-gradient(180deg,#ffe26c,#eabf25);
+  box-shadow:0 0 22px rgba(255,211,57,.32);
+  font:900 15px/1 Arial,sans-serif;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+}
+.bw180-story-next:hover,.bw180-story-next:focus-visible{filter:brightness(1.12);box-shadow:0 0 30px rgba(255,218,74,.58);outline:none}
+.bw180-story-skip{
+  position:absolute;
+  z-index:10;
+  right:70px;
+  top:112px;
+  border:1px solid rgba(161,226,244,.48);
+  border-radius:3px;
+  padding:10px 16px;
+  color:#c8dce5;
+  background:rgba(1,12,24,.72);
+  font:900 11px/1 Arial,sans-serif;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+}
+.bw180-story-skip:hover,.bw180-story-skip:focus-visible{color:#fff;border-color:#6fe7ff;outline:none}
+
+/* Mission-title and narrative cards use the full visual as their hero. */
+#bw180StoryOverlay[data-mode="title"] .bw180-story-copy,
+#bw180StoryOverlay[data-mode="narration"] .bw180-story-copy,
+#bw180StoryOverlay[data-mode="finale"] .bw180-story-copy{
+  left:260px;
+  right:260px;
+  bottom:88px;
+  min-height:285px;
+  text-align:center;
+  border-left:2px solid rgba(162,241,255,.82);
+  background:linear-gradient(180deg,rgba(2,12,24,.58),rgba(1,5,12,.92));
+}
+#bw180StoryOverlay[data-mode="title"] .bw180-story-title,
+#bw180StoryOverlay[data-mode="finale"] .bw180-story-title{display:block;font-size:94px}
+#bw180StoryOverlay[data-mode="title"] .bw180-story-body,
+#bw180StoryOverlay[data-mode="narration"] .bw180-story-body,
+#bw180StoryOverlay[data-mode="finale"] .bw180-story-body{margin-left:auto;margin-right:auto;max-width:1250px}
+#bw180StoryOverlay[data-mode="finale"] .bw180-story-copy{bottom:108px;border-color:#ffd957;box-shadow:0 18px 60px rgba(0,0,0,.58),0 0 35px rgba(255,203,62,.22)}
+#bw180StoryOverlay[data-mode="finale"] .bw180-story-kicker{color:#ffd957}
+
+/* Pop-ups intentionally leave the active mission board visible behind comms. */
+#bw180StoryOverlay[data-mode="popup"]{background:transparent}
+#bw180StoryOverlay[data-mode="popup"] .bw180-story-bg{display:none}
+#bw180StoryOverlay[data-mode="popup"] .bw180-story-shade{background:rgba(0,5,12,.75);backdrop-filter:blur(3px)}
+#bw180StoryOverlay[data-mode="popup"] .bw180-story-header{color:#ffd957;text-shadow:0 0 12px rgba(255,211,70,.55)}
+#bw180StoryOverlay[data-mode="popup"] .bw180-story-header::after{background:linear-gradient(90deg,rgba(255,218,75,.72),rgba(255,218,75,0))}
+#bw180StoryOverlay[data-mode="popup"] .bw180-story-copy{
+  left:86px;
+  right:770px;
+  bottom:120px;
+  min-height:245px;
+  border-color:#ffe06b;
+  border-left-color:#ffe06b;
+  box-shadow:0 18px 60px rgba(0,0,0,.62),0 0 32px rgba(255,214,62,.20);
+}
+#bw180StoryOverlay[data-mode="popup"][data-panel="right"] .bw180-story-copy{left:770px;right:86px}
+
+/* Campaign tactic rewards use their own full-stage acquisition UI. */
+#bw180StoryOverlay[data-mode="reward"]{background:transparent}
+#bw180StoryOverlay[data-mode="reward"] .bw180-story-bg{display:none}
+#bw180StoryOverlay[data-mode="reward"] .bw180-story-shade{
+  background:
+    radial-gradient(circle at 31% 48%,rgba(38,196,255,.23),transparent 30%),
+    radial-gradient(circle at 72% 52%,rgba(255,211,63,.12),transparent 35%),
+    rgba(0,5,13,.88);
+  backdrop-filter:blur(5px);
+}
+#bw180StoryOverlay[data-mode="reward"] .bw180-story-header{color:#ffe170;text-shadow:0 0 14px rgba(255,215,72,.58)}
+#bw180StoryOverlay[data-mode="reward"] .bw180-story-header::after{background:linear-gradient(90deg,rgba(255,220,92,.78),rgba(255,220,92,0))}
+#bw180StoryOverlay[data-mode="reward"] .bw180-story-progress{display:none}
+#bw180StoryOverlay[data-mode="reward"] .bw180-story-portrait{
+  inset:auto;
+  left:360px;
+  top:335px;
+  width:170px;
+  height:211px;
+  object-fit:contain;
+  filter:drop-shadow(0 24px 45px rgba(0,0,0,.78)) drop-shadow(0 0 32px rgba(67,210,255,.43));
+}
+#bw180StoryOverlay[data-mode="reward"] .bw180-story-copy{
+  left:780px;
+  right:145px;
+  bottom:185px;
+  min-height:430px;
+  padding:42px 46px 36px;
+  border-color:#ffe277;
+  border-left:10px solid #ffe277;
+  background:linear-gradient(135deg,rgba(2,18,36,.97),rgba(7,10,20,.94));
+  box-shadow:0 22px 70px rgba(0,0,0,.68),0 0 42px rgba(255,215,69,.20),inset 0 0 38px rgba(73,211,255,.07);
+}
+#bw180StoryOverlay[data-mode="reward"] .bw180-story-title{
+  display:block;
+  margin:18px 0 20px;
+  color:#fff;
+  font-size:72px;
+  line-height:.94;
+}
+#bw180StoryOverlay[data-mode="reward"] .bw180-story-speaker{
+  color:#ffe16d;
+  font-size:39px;
+  line-height:1.05;
+  text-shadow:0 0 22px rgba(255,211,60,.28);
+}
+#bw180StoryOverlay[data-mode="reward"] .bw180-story-body{font-size:24px;color:#dff7ff}
+#bw180StoryOverlay[data-mode="reward"] .bw180-story-count{visibility:hidden}
+#bw180StoryOverlay[data-mode="reward"] .bw180-story-next{min-width:255px}
+
+#bw180StoryOverlay.scene-enter .bw180-story-bg{animation:bw180BgIn .42s ease both}
+#bw180StoryOverlay.scene-enter .bw180-story-portrait{animation:bw180PortraitIn .42s cubic-bezier(.2,.8,.25,1) both}
+#bw180StoryOverlay.scene-enter .bw180-story-copy{animation:bw180CopyIn .36s ease-out both}
+@keyframes bw180BgIn{from{opacity:.35;transform:scale(1.018)}to{opacity:1;transform:scale(1)}}
+@keyframes bw180PortraitIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bw180CopyIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+/* The opening card for each mission shares the supplied planet view and
+   pushes 30% toward its exact center. Dialogue cards retain their own art. */
+#bw180StoryOverlay[data-motion="mission-start"].scene-enter .bw180-story-bg{
+  transform-origin:50% 50%;
+  animation:bw187MissionStartPush 6s cubic-bezier(.18,.62,.25,1) both;
+}
+@keyframes bw187MissionStartPush{
+  from{opacity:.52;transform:scale(1)}
+  to{opacity:1;transform:scale(1.3)}
+}
+
+/* The final Coming Soon image breathes in over the opening of First Contact
+   Signal, then the whole card fades away during the track's final seconds. */
+#bw180StoryOverlay[data-cinematic="coming-soon"].scene-enter .bw180-story-bg{
+  animation:none;
+  opacity:0;
+  transform:scale(1.035);
+  transition:
+    opacity var(--bw181-finale-fade-in,4s) ease-out,
+    transform calc(var(--bw181-finale-fade-in,4s) + .5s) ease-out;
+}
+#bw180StoryOverlay[data-cinematic="coming-soon"].bw181-coming-soon-visible .bw180-story-bg{
+  opacity:1;
+  transform:scale(1);
+}
+#bw180StoryOverlay[data-cinematic="coming-soon"].bw181-coming-soon-ending .bw180-story-bg,
+#bw180StoryOverlay[data-cinematic="coming-soon"].bw181-coming-soon-ending .bw180-story-portrait,
+#bw180StoryOverlay[data-cinematic="coming-soon"].bw181-coming-soon-ending .bw180-story-shade,
+#bw180StoryOverlay[data-cinematic="coming-soon"].bw181-coming-soon-ending .bw180-story-scanlines,
+#bw180StoryOverlay[data-cinematic="coming-soon"].bw181-coming-soon-ending .bw180-story-header,
+#bw180StoryOverlay[data-cinematic="coming-soon"].bw181-coming-soon-ending .bw180-story-progress,
+#bw180StoryOverlay[data-cinematic="coming-soon"].bw181-coming-soon-ending .bw180-story-skip,
+#bw180StoryOverlay[data-cinematic="coming-soon"].bw181-coming-soon-ending .bw180-story-copy{
+  animation:none;
+  opacity:0;
+  transition:opacity var(--bw181-finale-fade-out,4s) ease-in;
+}
+
+@media (prefers-reduced-motion:reduce){
+  #bw180StoryOverlay.scene-enter .bw180-story-bg,
+  #bw180StoryOverlay.scene-enter .bw180-story-portrait,
+  #bw180StoryOverlay.scene-enter .bw180-story-copy{animation:none}
+  #bw180StoryOverlay[data-cinematic="coming-soon"] .bw180-story-bg,
+  #bw180StoryOverlay[data-cinematic="coming-soon"].bw181-coming-soon-ending .bw180-story-bg,
+  #bw180StoryOverlay[data-cinematic="coming-soon"].bw181-coming-soon-ending .bw180-story-copy{transition:none}
+  .bw180-story-progress i{transition:none}
+}
+
+/* Mission 3-only return teaser. Each still hard-flashes into the next. The
+   final mission menu still slowly zooms toward its top-center title/route. */
+#bw186ReturnTeaser{
+  position:absolute;
+  z-index:13000;
+  inset:0;
+  display:none;
+  width:1920px;
+  height:1080px;
+  overflow:hidden;
+  background:#fff;
+  pointer-events:none;
+}
+#bw186ReturnTeaser.active{display:block}
+.bw186-teaser-frame{
+  position:absolute;
+  inset:0;
+  width:1920px;
+  height:1080px;
+  object-fit:cover;
+  opacity:0;
+  transform:scale(1);
+  transform-origin:50% 16%;
+}
+.bw186-teaser-frame.is-current{opacity:1;z-index:1}
+#bw186ReturnTeaser.menu-zoom .bw186-teaser-frame.is-current{
+  animation:bw186MenuZoom 3s linear both;
+}
+.bw188-teaser-coming-soon{
+  position:absolute;
+  z-index:4;
+  left:50%;
+  top:50%;
+  min-width:690px;
+  padding:24px 54px 28px;
+  border-top:3px solid rgba(255,220,89,.92);
+  border-bottom:3px solid rgba(255,220,89,.92);
+  background:rgba(1,5,12,.72);
+  color:#fff;
+  opacity:0;
+  transform:translate(-50%,-50%);
+  text-align:center;
+  text-shadow:0 6px 18px #000,0 0 28px rgba(255,205,45,.65);
+  font:400 104px/.9 Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;
+  letter-spacing:8px;
+  white-space:nowrap;
+}
+#bw186ReturnTeaser.coming-soon .bw188-teaser-coming-soon{opacity:1}
+.bw186-teaser-flash{
+  position:absolute;
+  z-index:5;
+  inset:0;
+  background:#fff;
+  opacity:0;
+  transition:opacity 70ms linear;
+}
+#bw186ReturnTeaser.is-flashing .bw186-teaser-flash{opacity:1}
+@keyframes bw186MenuZoom{
+  from{transform:scale(1)}
+  to{transform:scale(1.19)}
+}
+@media (prefers-reduced-motion:reduce){
+  #bw186ReturnTeaser.menu-zoom .bw186-teaser-frame.is-current{animation:none}
+}

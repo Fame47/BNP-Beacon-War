@@ -1,0 +1,138 @@
+/* ============================================================
+   BEACON WARS v191 · COMMAND OPTIONS
+   ============================================================ */
+
+/* Keep the long Target Specialist label inside its rules card. */
+#help .database-shell.rules-view .special-rules>div:nth-child(3) b{
+  font-size:19px !important;
+  letter-spacing:-1px !important;
+}
+
+/* Database Options tab */
+#help .database-shell.options-view{
+  left:156px !important;
+  top:102px !important;
+  width:1600px !important;
+  height:818px !important;
+}
+#help .database-shell.options-view .database-panel{height:620px !important}
+#help #databaseOptionsPanel{padding:26px 38px 0 !important}
+#help .database-shell.options-view .database-back{
+  left:50% !important;
+  bottom:-59px !important;
+  width:330px !important;
+  white-space:nowrap !important;
+  font-size:17px !important;
+}
+.bw191-options-layout{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:28px;
+  height:540px;
+}
+.bw191-options-card{
+  min-width:0;
+  padding:34px 38px;
+  border:4px solid rgba(255,255,255,.95);
+  background:linear-gradient(145deg,rgba(0,17,31,.92),rgba(0,5,14,.9));
+  box-shadow:inset 0 0 38px rgba(57,211,255,.07),0 0 24px rgba(0,0,0,.32);
+}
+.bw191-options-kicker{color:#5be5ff;font:900 14px/1 Arial,sans-serif;letter-spacing:3px}
+.bw191-options-card h2{
+  margin:10px 0 9px;color:#fff;
+  font:900 46px/.95 "Arial Narrow",Impact,Arial,sans-serif;letter-spacing:-.5px;
+}
+.bw191-options-card>p{margin:0 0 34px;color:#c7dce6;font:800 15px/1.45 Arial,sans-serif}
+.bw191-options-card>p strong{color:#ffd34d}
+
+.bw191-audio-panel{box-sizing:border-box}
+.bw191-audio-row{
+  display:grid;
+  grid-template-columns:170px minmax(0,1fr) 58px;
+  align-items:center;
+  gap:16px;
+  min-height:74px;
+  padding:0 16px;
+  border:1px solid rgba(84,220,255,.28);
+  background:rgba(1,26,43,.76);
+}
+.bw191-audio-row+.bw191-audio-row{margin-top:12px}
+.bw191-audio-row span{color:#fff;font:1000 14px/1 Arial,sans-serif;letter-spacing:.5px}
+.bw191-audio-row output{color:#62e6ff;font:1000 14px/1 Arial,sans-serif;text-align:right}
+.bw191-audio-row input[type="range"]{
+  --audio-fill:100%;
+  width:100%;height:8px;margin:0;
+  appearance:none;-webkit-appearance:none;
+  border:1px solid rgba(102,229,255,.62);border-radius:999px;
+  background:linear-gradient(90deg,#4addff 0 var(--audio-fill),rgba(2,12,23,.95) var(--audio-fill) 100%);
+  cursor:pointer;
+}
+.bw191-audio-row input[type="range"]::-webkit-slider-thumb{
+  width:22px;height:22px;appearance:none;-webkit-appearance:none;border:2px solid #fff;border-radius:50%;
+  background:#ffd548;box-shadow:0 0 14px rgba(255,212,72,.72);
+}
+.bw191-audio-row input[type="range"]::-moz-range-thumb{
+  width:20px;height:20px;border:2px solid #fff;border-radius:50%;
+  background:#ffd548;box-shadow:0 0 14px rgba(255,212,72,.72);
+}
+
+.bw191-redeem-form{margin-top:7px}
+.bw191-redeem-form>label{display:block;margin-bottom:10px;color:#8feeff;font:900 12px/1 Arial,sans-serif;letter-spacing:1.5px}
+.bw191-redeem-entry{display:grid;grid-template-columns:1fr 150px;gap:10px}
+.bw191-redeem-entry input{
+  min-width:0;height:54px;padding:0 18px;border:2px solid rgba(86,220,255,.55);border-radius:5px;
+  background:rgba(0,8,17,.92);color:#fff;font:1000 18px/1 Arial,sans-serif;letter-spacing:1.8px;text-transform:uppercase;
+}
+.bw191-redeem-entry input:focus{outline:2px solid #5be5ff;box-shadow:0 0 18px rgba(60,215,255,.28)}
+.bw191-redeem-entry button{
+  border:2px solid #fff;border-radius:5px;background:linear-gradient(180deg,#ffe65d,#e9ad1d);
+  color:#111;font:1000 13px/1 Arial,sans-serif;letter-spacing:1px;cursor:pointer;
+}
+.bw191-redeem-entry button:hover{filter:brightness(1.12);box-shadow:0 0 18px rgba(255,209,54,.34)}
+.bw191-credit-readout{
+  display:flex;align-items:center;justify-content:space-between;margin-top:22px;padding:15px 18px;
+  border:1px solid rgba(255,211,64,.45);background:rgba(66,42,0,.22);
+}
+.bw191-credit-readout span{color:#ffd85c;font:900 12px/1 Arial,sans-serif;letter-spacing:1.2px}
+.bw191-credit-readout b{color:#fff;font:1000 30px/1 Arial,sans-serif}
+.bw191-redeem-status{
+  min-height:44px;margin-top:18px;padding:12px 14px;box-sizing:border-box;
+  border-left:4px solid #5be5ff;background:rgba(0,24,38,.72);color:#bdefff;
+  font:900 12px/1.4 Arial,sans-serif;letter-spacing:.7px;
+}
+.bw191-redeem-status[data-state="success"]{border-color:#50ffae;color:#72ffc0;background:rgba(0,61,38,.32)}
+.bw191-redeem-status[data-state="error"]{border-color:#ff5060;color:#ff9ba4;background:rgba(77,0,11,.32)}
+.bw191-redeem-status[data-state="used"]{border-color:#ffd34d;color:#ffe386;background:rgba(73,45,0,.3)}
+
+/* Shared compact controls in the tactical HUDs. */
+.bw191-audio-panel.compact{
+  margin-top:14px;padding-top:12px;border-top:1px solid rgba(92,219,255,.27);
+}
+.bw191-compact-title{margin-bottom:8px;color:#65e4ff;font:1000 10px/1 Arial,sans-serif;letter-spacing:1.5px}
+.bw191-audio-panel.compact .bw191-audio-row{
+  grid-template-columns:66px minmax(0,1fr) 39px;
+  gap:8px;min-height:31px;padding:0;border:0;background:transparent;
+}
+.bw191-audio-panel.compact .bw191-audio-row+.bw191-audio-row{margin-top:5px}
+.bw191-audio-panel.compact .bw191-audio-row span,
+.bw191-audio-panel.compact .bw191-audio-row output{font-size:9px;letter-spacing:.3px}
+.bw191-audio-panel.compact .bw191-audio-row input[type="range"]{height:5px}
+.bw191-audio-panel.compact .bw191-audio-row input[type="range"]::-webkit-slider-thumb{width:15px;height:15px}
+.bw191-audio-panel.compact .bw191-audio-row input[type="range"]::-moz-range-thumb{width:13px;height:13px}
+
+/* Normal battle: audio controls sit directly below the captured-unit list. */
+#game.battle-live #capturedBox{height:300px !important}
+#game.battle-live #capturedList{max-height:91px !important;min-height:72px !important}
+#game.battle-live #capturedBox .battle-audio{margin-top:10px !important}
+
+/* Campaign controls sit inside each intelligence box, below its live intel. */
+#campaignMission1 .campaign-m1-intel,
+#campaignMission2 .campaign-m2-intel{min-height:410px}
+#campaignMission1 .campaign-m1-intel-list,
+#campaignMission2 .campaign-m2-intel-list{max-height:215px;overflow:auto}
+#campaignMission3 .campaign-m3-hud.right{min-height:410px}
+#campaignMission3 .campaign-m3-intel{max-height:245px;overflow:auto}
+
+@media (prefers-reduced-motion:reduce){
+  .bw191-audio-row input[type="range"]{scroll-behavior:auto}
+}

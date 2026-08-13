@@ -1,0 +1,113 @@
+/* ============================================================
+   BEACON WARS v187 · ECONOMY + SIMULATION TRANSITIONS
+   Full-stage loading sequence for Command Center and battle entry.
+   ============================================================ */
+
+.bw159-transition-loader{
+  position:absolute;
+  inset:0;
+  z-index:99999;
+  display:none;
+  overflow:hidden;
+  background:#01070d;
+  color:#fff;
+  pointer-events:all;
+  font-family:Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;
+}
+.bw159-transition-loader.active{display:block;animation:bw159-loader-vibration .18s steps(2,end) 4}
+.bw159-loader-stars{
+  position:absolute;inset:-8%;
+  background:
+    radial-gradient(circle at 8% 17%,rgba(255,255,255,.95) 0 1.5px,transparent 2.2px),
+    radial-gradient(circle at 18% 73%,rgba(85,215,255,.9) 0 1.6px,transparent 2.4px),
+    radial-gradient(circle at 29% 31%,rgba(255,255,255,.8) 0 1px,transparent 2px),
+    radial-gradient(circle at 41% 83%,rgba(255,255,255,.95) 0 1.5px,transparent 2.4px),
+    radial-gradient(circle at 54% 20%,rgba(80,200,255,.85) 0 1.3px,transparent 2.2px),
+    radial-gradient(circle at 68% 62%,rgba(255,255,255,.9) 0 1.2px,transparent 2.1px),
+    radial-gradient(circle at 76% 14%,rgba(255,255,255,.8) 0 1.5px,transparent 2.5px),
+    radial-gradient(circle at 87% 76%,rgba(70,190,255,.9) 0 1.4px,transparent 2.4px),
+    radial-gradient(circle at 94% 37%,rgba(255,255,255,.9) 0 1.2px,transparent 2.1px),
+    radial-gradient(ellipse at 50% 50%,rgba(5,34,58,.55),rgba(0,0,0,.94) 68%);
+  background-size:310px 270px,380px 330px,260px 310px,430px 380px,350px 300px,290px 390px,450px 320px,330px 360px,390px 280px,100% 100%;
+  animation:bw159-stars-drift 4s linear forwards;
+}
+.bw159-loader-stars::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 48%,rgba(20,170,255,.12),transparent 34%);
+}
+/* Campaign missions use the supplied warp corridor and push 40% toward its
+   center over the established four-second loading transit. */
+.bw159-transition-loader.campaign-mode .bw159-loader-stars{
+  inset:0;
+  background:url("warp.jpg") center center/cover no-repeat;
+  transform-origin:50% 50%;
+  animation:bw187-campaign-warp-push 4s cubic-bezier(.22,.62,.28,1) forwards;
+}
+.bw159-transition-loader.campaign-mode .bw159-loader-stars::after{
+  background:
+    radial-gradient(ellipse at 50% 52%,rgba(0,5,24,.04) 0%,rgba(0,3,15,.20) 58%,rgba(0,1,8,.52) 100%),
+    linear-gradient(180deg,rgba(0,2,12,.18),rgba(0,2,12,.30));
+}
+.bw159-loader-scan{position:absolute;inset:0;opacity:0;pointer-events:none}
+.bw159-transition-loader.holodeck-mode .bw159-loader-scan{
+  opacity:.55;
+  background:
+    linear-gradient(rgba(44,214,255,.14) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(44,214,255,.14) 1px,transparent 1px);
+  background-size:80px 80px;
+  transform:perspective(900px) rotateX(64deg) scale(1.5) translateY(190px);
+  transform-origin:center bottom;
+  animation:bw159-grid-pulse .8s ease-in-out infinite alternate;
+}
+.bw159-loader-holo{position:absolute;left:50%;top:41%;width:430px;height:430px;transform:translate(-50%,-50%);opacity:0}
+.bw159-transition-loader.holodeck-mode .bw159-loader-holo{opacity:1}
+.bw159-holo-ring{position:absolute;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%);border:3px solid rgba(57,218,255,.74);box-shadow:0 0 22px rgba(31,196,255,.38),inset 0 0 24px rgba(31,196,255,.22)}
+.bw159-holo-ring.ring-a{width:390px;height:390px;border-style:dashed;animation:bw159-spin 3.2s linear infinite}
+.bw159-holo-ring.ring-b{width:288px;height:288px;border-width:6px;border-color:rgba(96,231,255,.5);animation:bw159-spin-rev 2.2s linear infinite}
+.bw159-holo-ring.ring-c{width:190px;height:190px;border-width:2px;animation:bw159-core-pulse .48s ease-in-out infinite alternate}
+.bw159-holo-core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:132px;height:132px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,rgba(81,225,255,.32),rgba(0,71,114,.46) 48%,rgba(0,13,25,.8));border:2px solid #61dfff;color:#eaffff;font-size:62px;letter-spacing:4px;text-shadow:0 0 14px #46dfff;box-shadow:0 0 50px rgba(25,196,255,.46)}
+.bw159-transition-loader.battle-mode .bw159-loader-holo{display:none}
+.bw159-loader-copy{position:absolute;left:50%;top:72%;width:940px;transform:translate(-50%,-50%);text-align:center;text-transform:uppercase;letter-spacing:1.5px}
+.bw159-transition-loader.battle-mode .bw159-loader-copy{top:54%}
+.bw159-loader-kicker{font:700 18px/1.2 Arial,sans-serif;letter-spacing:6px;color:#46dfff;margin-bottom:10px;text-shadow:0 0 12px rgba(53,211,255,.55)}
+.bw159-loader-title{font-size:68px;line-height:.95;letter-spacing:4px;text-shadow:0 0 24px rgba(57,210,255,.26)}
+.bw159-loader-sub{font:700 18px/1.2 Arial,sans-serif;margin-top:15px;color:#b8d9e8;letter-spacing:2px}
+.bw159-route{position:relative;width:850px;height:72px;margin:44px auto 0}
+.bw159-route-track{position:absolute;left:0;right:0;top:33px;height:8px;border:2px solid rgba(100,222,255,.65);background:rgba(0,20,34,.92);box-shadow:0 0 18px rgba(42,202,255,.32),inset 0 0 10px rgba(42,202,255,.25)}
+.bw159-route-fill{position:absolute;left:2px;top:35px;height:4px;width:0;background:linear-gradient(90deg,#1d6cff,#65e7ff,#fff);box-shadow:0 0 16px #4fdfff;animation:bw159-route-fill 4s linear forwards}
+.bw159-loader-ship{
+  position:absolute;
+  left:-166px;
+  top:0;
+  width:176px;
+  height:72px;
+  overflow:hidden;
+  filter:drop-shadow(0 0 10px rgba(94,226,255,.88));
+  animation:bw159-ship-travel 4s linear forwards;
+}
+.bw159-loader-ship img{
+  position:absolute;
+  left:0;
+  top:-10px;
+  width:176px;
+  height:auto;
+  clip-path:inset(17.5% 0 38% 0);
+  image-rendering:auto;
+}
+.bw159-progress-meta{display:flex;justify-content:space-between;width:850px;margin:8px auto 0;font:700 15px/1.2 Arial,sans-serif;color:#87dff8;letter-spacing:3px}
+#bw159LoaderPercent{color:#fff;font-size:17px}
+.bw159-transition-loader.loading-complete .bw159-loader-title{color:#a9f9ff;text-shadow:0 0 30px #39dfff}
+
+.bw159-credit-result{margin-top:16px;padding:10px 16px;border:1px solid rgba(255,211,72,.72);background:rgba(36,27,0,.62);color:#ffe36c;font:900 17px/1.25 Arial,sans-serif;letter-spacing:1px;text-transform:uppercase;border-radius:8px;box-shadow:0 0 18px rgba(255,196,47,.16)}
+.bw159-credit-toast{position:absolute;z-index:9000;left:50%;top:160px;transform:translateX(-50%) translateY(-10px);padding:10px 18px;border:1px solid #ffe164;border-radius:8px;background:rgba(12,16,21,.9);color:#ffe164;font:900 20px/1 Arial,sans-serif;letter-spacing:1px;opacity:0;pointer-events:none;transition:opacity .18s ease,transform .18s ease;box-shadow:0 0 20px rgba(255,211,56,.24)}
+.bw159-credit-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@keyframes bw159-route-fill{from{width:0}to{width:846px}}
+@keyframes bw159-ship-travel{from{left:-176px}to{left:674px}}
+@keyframes bw159-stars-drift{from{transform:scale(1.04) translateX(0)}to{transform:scale(1.13) translateX(-20px)}}
+@keyframes bw187-campaign-warp-push{from{transform:scale(1)}to{transform:scale(1.4)}}
+@keyframes bw159-spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes bw159-spin-rev{to{transform:translate(-50%,-50%) rotate(-360deg)}}
+@keyframes bw159-core-pulse{from{box-shadow:0 0 10px rgba(54,217,255,.2),inset 0 0 12px rgba(54,217,255,.12)}to{box-shadow:0 0 36px rgba(54,217,255,.8),inset 0 0 32px rgba(54,217,255,.28)}}
+@keyframes bw159-grid-pulse{from{filter:brightness(.7)}to{filter:brightness(1.5)}}
+@keyframes bw159-loader-vibration{0%,100%{transform:translate(0)}25%{transform:translate(2px,-1px)}50%{transform:translate(-2px,1px)}75%{transform:translate(1px,2px)}}
