@@ -1,19 +1,12 @@
-/* Beacon Wars v192 · NEW FIREBASE PROJECT TEMPLATE
-   Replace every PASTE_* value with the Web App configuration shown in:
-   Firebase Console > Project settings > Your apps > Web app.
-
-   This file contains only public client identifiers. Never put Admin SDK
-   credentials, service-account JSON, private keys, or server secrets here. */
+// Beacon Wars Firebase configuration.
+// The game loads Firebase SDKs and initializes Firebase from script.js.
 window.firebaseConfig = {
-  apiKey: "PASTE_NEW_API_KEY",
-  authDomain: "PASTE_NEW_PROJECT_ID.firebaseapp.com",
-  projectId: "PASTE_NEW_PROJECT_ID",
-  storageBucket: "PASTE_NEW_PROJECT_ID.firebasestorage.app",
-  messagingSenderId: "PASTE_NEW_MESSAGING_SENDER_ID",
-  appId: "PASTE_NEW_APP_ID",
-
-  /* Optional but strongly recommended for the hosted production build.
-     Create a score-based reCAPTCHA Enterprise key, register it with Firebase
-     App Check, then paste its SITE KEY here. Leave blank during first setup. */
-  appCheckSiteKey: ""
+  apiKey: "AIzaSyAwKzgziXDLe8oQ4kCPehPFmnda3OUNgrQ",
+  authDomain: "beacon-wars.firebaseapp.com",
+  databaseURL: "https://beacon-wars-default-rtdb.firebaseio.com",
+  projectId: "beacon-wars",
+  storageBucket: "beacon-wars.firebasestorage.app",
+  messagingSenderId: "747008612345",
+  appId: "1:747008612345:web:17d80b559cbe936ff38f28",
+  measurementId: "G-0CCWCH08W9"
 };
